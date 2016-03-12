@@ -40,7 +40,7 @@ data AppAction
 data Effect
   = None
   | GetStuff
-  | ExternalIncrement
+  | AjaxIncrement
 
 
 type AppState = { num :: Int }
@@ -65,10 +65,10 @@ performEffect :: forall e. Effect -> Eff ( console :: CONSOLE, ajax :: AJAX | e)
 performEffect fx =
   case fx of
     GetStuff ->          log "Getting Stuff :) !"
-    ExternalIncrement -> runAff
+    AjaxIncrement -> runAff
                             (\_ -> send [ Increment ] actionsChannel)
                             (\_ -> send [ Increment ] actionsChannel)
-                            ((affjax $ defaultRequest { url = "/api", method = GET }) :: forall e. Aff (ajax :: AJAX, console :: CONSOLE | e) (AffjaxResponse Json))
+                            ((affjax $ defaultRequest { url = "http://jsonplaceholder.typicode.com/posts/1", method = GET }) :: forall e. Aff (ajax :: AJAX, console :: CONSOLE | e) (AffjaxResponse Json))
 
     _        ->          log "Doing other things."
 
@@ -86,7 +86,7 @@ hello = createClass $ spec unit $ \ctx -> do
                              [ D.text "Increment" ]
                   , D.button [ P.onClick \_ -> send [Decrement] actionsChannel ]
                              [ D.text "Decrement" ]
-                  , D.button [ P.onClick \_ -> send [ExternalIncrement] effectsChannel ]
+                  , D.button [ P.onClick \_ -> send [AjaxIncrement] effectsChannel ]
                              [ D.text "Ajax Increment" ]
                   ]
 
