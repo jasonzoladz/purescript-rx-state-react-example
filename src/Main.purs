@@ -86,6 +86,8 @@ hello = createClass $ spec unit $ \ctx -> do
                              [ D.text "Increment" ]
                   , D.button [ P.onClick \_ -> send [Decrement] actionsChannel ]
                              [ D.text "Decrement" ]
+                  , D.button [ P.onClick \_ -> send [ExternalIncrement] effectsChannel ]
+                             [ D.text "Ajax Increment" ]
                   ]
 
              ]
