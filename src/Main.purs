@@ -29,7 +29,7 @@ import Network.HTTP.Affjax
 import Network.HTTP.Method (Method(..))
 import Network.HTTP.Affjax.Response
 
-import RxState
+import Data.RxState
 import Data.Argonaut.Core (Json)
 
 data AppAction
